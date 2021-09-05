@@ -9,12 +9,15 @@ import CardMedia from '@material-ui/core/CardMedia'
 import axios from 'axios'
 import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
-
+import { getTypeStyle, upperCase } from '../constant/color'
+import SingleStats from '../component/SingleStats'
 export const SinglePokemon = () => {
   const { id } = useParams()
   const [pokemon, setPokemon] = useState([])
   const [loading, setLoading] = useState(true)
   const classes = useStyles()
+
+  // console.log(getTypeStyle('flying'))
 
   useEffect(() => {
     setLoading(true)
@@ -38,8 +41,8 @@ export const SinglePokemon = () => {
       </Container>
     )
   }
-  const { name, sprites, types, height, moves, weight } = pokemon
-  console.log(pokemon)
+  const { name, sprites, types, height, moves, weight, stats } = pokemon
+  // console.log(pokemon)
 
   const total = moves && moves.length
 
@@ -50,8 +53,8 @@ export const SinglePokemon = () => {
 
   return (
     <Container className={classes.pokemonContainer} maxWidth='md'>
-      <Card className={classes.carPadding}>
-        <Grid container>
+      <Card square className={classes.carPadding}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6} className={classes.background}>
             <div className={classes.title}>
               <Typography className={classes.textArea} variant='h5'>
@@ -71,9 +74,12 @@ export const SinglePokemon = () => {
               title={name}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+
+          {/* Pokemon info */}
+
+          <Grid item xs={12} sm={6} style={{ backgroundColor: '#30a7d7' }}>
             <CardContent>
-              <Typography variant='h5' color='initial'>
+              <Typography variant='h5' style={{ color: '#ffffff' }}>
                 Pokemon info
               </Typography>
               <div>
@@ -84,7 +90,7 @@ export const SinglePokemon = () => {
                   <Typography
                     className={classes.fontSizes}
                     variant='subtitle1'
-                    color='initial'
+                    color='textPrimary'
                   >
                     {height}
                   </Typography>
@@ -96,7 +102,7 @@ export const SinglePokemon = () => {
                   <Typography
                     className={classes.fontSizes}
                     variant='subtitle1'
-                    color='initial'
+                    color='textPrimary'
                   >
                     {weight}
                   </Typography>
@@ -108,24 +114,27 @@ export const SinglePokemon = () => {
                   <Typography
                     className={classes.fontSizes}
                     variant='subtitle1'
-                    color='initial'
+                    color='textPrimary'
                   >
                     {total}
                   </Typography>
                 </div>
 
-                <Typography variant='h6' color='initial'>
+                <Typography variant='h6' className={classes.flexText}>
                   Type:
                 </Typography>
                 {types &&
                   types.map((item, index) => {
+                    const { name } = item.type
                     return (
                       <Typography
                         key={index}
                         variant='subtitle1'
                         color='initial'
+                        style={getTypeStyle(name)}
+                        className={classes.typeColor}
                       >
-                        {index + 1}. {item.type.name}
+                        {upperCase(name)}
                       </Typography>
                     )
                   })}
@@ -133,6 +142,11 @@ export const SinglePokemon = () => {
             </CardContent>
           </Grid>
         </Grid>
+      </Card>
+      <Card square style={{ backgroundColor: '#f5f5f5' }}>
+        <CardContent>
+          <SingleStats stats={stats} />
+        </CardContent>
       </Card>
     </Container>
   )
@@ -163,6 +177,7 @@ const useStyles = makeStyles({
   flexText: {
     display: 'flex',
     alignItems: 'center',
+    color: 'white',
   },
   fontSizes: {
     fontSize: '1rem',
@@ -178,5 +193,16 @@ const useStyles = makeStyles({
   carPadding: {
     padding: '2rem',
     background: '#f5f5f5',
+  },
+  type: {
+    marginLeft: '0.75rem',
+  },
+  typeColor: {
+    padding: '0.75rem',
+    width: '5rem',
+    marginBottom: '0.5rem',
+    borderRadius: '0.5rem',
+    display: 'grid',
+    placeItems: 'center',
   },
 })
