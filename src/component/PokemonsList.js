@@ -16,7 +16,7 @@ const PokemonsList = () => {
     <Grid container className={classes.sectionCenter} spacing={1}>
       {Object.keys(pokemon).map((PokemonId) => {
         return (
-          pokemon[PokemonId].name.includes(filter) && (
+          pokemon[PokemonId].name.includes(filter.toLowerCase()) && (
             <Pokemon key={PokemonId} PokemonId={PokemonId} pokemon={pokemon} />
           )
         )
