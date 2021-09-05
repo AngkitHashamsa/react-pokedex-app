@@ -2,7 +2,7 @@
 
 ## live site on netlify
 
-- [pokedex](https://react-pokedex-pokemon-app.netlify.app)
+- [https://react-pokedex-pokemon-app.netlify.app](https://react-pokedex-pokemon-app.netlify.app)
 
 ## API end point
 
